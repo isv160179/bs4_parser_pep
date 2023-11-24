@@ -3,11 +3,19 @@ import re
 from urllib.parse import urljoin
 
 import requests_cache
-from configs import configure_argument_parser, configure_logging
-from constants import BASE_DIR, MAIN_DOC_URL, MAIN_PEP_URL, EXPECTED_STATUS
-from outputs import control_output
 from tqdm import tqdm
-from utils import find_tag, get_soup, find_string
+
+from configs import configure_argument_parser, configure_logging
+from constants import (
+    BASE_DIR,
+    MAIN_DOC_URL,
+    MAIN_PEP_URL,
+    EXPECTED_STATUS,
+    PDF_FILES_IN_ZIP,
+    PATTERN
+)
+from outputs import control_output
+from utils import find_tag, get_soup, find_string, create_dir
 
 
 def whats_new(session):
@@ -53,10 +61,9 @@ def latest_versions(session):
     else:
         raise Exception('Ничего не нашлось')
     results = [('Ссылка на документацию', 'Версия', 'Статус')]
-    pattern = r'Python (?P<version>\d\.\d+) \((?P<status>.*)\)'
     for a_tag in a_tags:
         link = a_tag['href']
-        text_match = re.search(pattern, a_tag.text)
+        text_match = PATTERN.search(a_tag.text)
         if text_match is not None:
             version, status = text_match.groups()
         else:
@@ -73,13 +80,13 @@ def download(session):
     pdf_a4_tag = find_tag(
         table_tag,
         'a',
-        {'href': re.compile(r'.+pdf-a4\.zip$')}
+        {'href': PDF_FILES_IN_ZIP}
     )
     pdf_a4_link = pdf_a4_tag['href']
     archive_url = urljoin(downloads_url, pdf_a4_link)
     filename = archive_url.split('/')[-1]
     downloads_dir = BASE_DIR / 'downloads'
-    downloads_dir.mkdir(exist_ok=True)
+    create_dir(downloads_dir)
     archive_path = downloads_dir / filename
     response = session.get(archive_url)
     with open(archive_path, 'wb') as file:

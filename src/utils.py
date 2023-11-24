@@ -1,8 +1,9 @@
 import logging
 
 from bs4 import BeautifulSoup
-from exceptions import ParserFindTagException
 from requests import RequestException
+
+from exceptions import ParserFindTagException
 
 
 def get_response(session, url):
@@ -40,3 +41,11 @@ def get_soup(session, url):
     if response is None:
         return
     return BeautifulSoup(response.text, 'lxml')
+
+
+def create_dir(dir_name):
+    try:
+        dir_name.mkdir(exist_ok=True)
+    except PermissionError:
+        logging.fatal(f'У вас нет прав для создания папки {dir_name}')
+        exit(1)

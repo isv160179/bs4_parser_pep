@@ -2,13 +2,15 @@ import csv
 import datetime as dt
 import logging
 
-from constants import BASE_DIR, DATETIME_FORMAT
 from prettytable import PrettyTable
+
+from constants import DATETIME_FORMAT, BASE_DIR
+from utils import create_dir
 
 
 def file_output(results, cli_args):
     results_dir = BASE_DIR / 'results'
-    results_dir.mkdir(exist_ok=True)
+    create_dir(results_dir)
     parser_mode = cli_args.mode
     now = dt.datetime.now()
     now_formatted = now.strftime(DATETIME_FORMAT)
@@ -21,13 +23,11 @@ def file_output(results, cli_args):
 
 
 def control_output(results, cli_args):
-    output = cli_args.output
-    if output == 'pretty':
-        pretty_output(results)
-    elif output == 'file':
-        file_output(results, cli_args)
-    else:
-        default_output(results)
+    output = {
+        'pretty': lambda: pretty_output(results),
+        'file': lambda: file_output(results, cli_args),
+    }.get(cli_args.output, lambda: default_output(results))
+    output()
 
 
 def default_output(results):

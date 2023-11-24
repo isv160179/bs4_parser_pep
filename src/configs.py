@@ -2,7 +2,7 @@ import argparse
 import logging
 from logging.handlers import RotatingFileHandler
 
-from constants import BASE_DIR, DT_FORMAT, LOG_FORMAT, LOG_DIR, LOG_FILE
+from constants import DT_FORMAT, LOG_FORMAT, LOG_DIR, LOG_FILE
 from utils import create_dir
 
 

@@ -4,7 +4,7 @@ import logging
 
 from prettytable import PrettyTable
 
-from constants import DATETIME_FORMAT, BASE_DIR, ArgumentOutput
+from constants import DATETIME_FORMAT, BASE_DIR
 from utils import create_dir
 
 
@@ -23,9 +23,13 @@ def file_output(results, cli_args):
 
 
 def control_output(results, cli_args):
+    # output = {
+    #     ArgumentOutput.RESULT_IN_TABLE: lambda: pretty_output(results),
+    #     ArgumentOutput.RESULT_IN_FILE: lambda: file_output(results, cli_args),
+    # }.get(cli_args.output, lambda: default_output(results))
     output = {
-        ArgumentOutput.RESULT_IN_TABLE: lambda: pretty_output(results),
-        ArgumentOutput.RESULT_IN_FILE: lambda: file_output(results, cli_args),
+        'pretty': lambda: pretty_output(results),
+        'file': lambda: file_output(results, cli_args),
     }.get(cli_args.output, lambda: default_output(results))
     output()
 

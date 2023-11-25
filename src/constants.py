@@ -1,5 +1,4 @@
 import re
-from enum import StrEnum
 from pathlib import Path
 
 MAIN_DOC_URL = 'https://docs.python.org/3/'
@@ -33,7 +32,6 @@ EXPECTED_STATUS = {
     '': ('Draft', 'Active'),
 }
 
-
-class ArgumentOutput(StrEnum):
-    RESULT_IN_TABLE = 'pretty'
-    RESULT_IN_FILE = 'file'
+# class ArgumentOutput(StrEnum):
+#     RESULT_IN_TABLE = 'pretty'
+#     RESULT_IN_FILE = 'file'

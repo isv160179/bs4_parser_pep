@@ -49,3 +49,11 @@ def create_dir(dir_name):
     except PermissionError:
         logging.fatal(f'У вас нет прав для создания папки {dir_name}')
         exit(1)
+    except FileNotFoundError:
+        logging.fatal(f'Путь {dir_name} не найден.')
+        exit(1)
+    except OSError as error:
+        logging.fatal(
+            f'При создании директории {dir_name} возникла ошибка: {error}'
+        )
+        exit(1)

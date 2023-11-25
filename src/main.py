@@ -11,7 +11,7 @@ from constants import (
     MAIN_PEP_URL,
     EXPECTED_STATUS,
     PDF_FILES_IN_ZIP,
-    PATTERN
+    PYTHON_VERSION_STATUS
 )
 from outputs import control_output
 from utils import find_tag, get_soup, find_string, create_dir
@@ -62,7 +62,7 @@ def latest_versions(session):
     results = [('Ссылка на документацию', 'Версия', 'Статус')]
     for a_tag in a_tags:
         link = a_tag['href']
-        text_match = PATTERN.search(a_tag.text)
+        text_match = PYTHON_VERSION_STATUS.search(a_tag.text)
         if text_match is not None:
             version, status = text_match.groups()
         else:

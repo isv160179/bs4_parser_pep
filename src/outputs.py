@@ -24,8 +24,8 @@ def file_output(results, cli_args):
 
 def control_output(results, cli_args):
     # output = {
-    #     ArgumentOutput.RESULT_IN_TABLE: lambda: pretty_output(results),
-    #     ArgumentOutput.RESULT_IN_FILE: lambda: file_output(results, cli_args),
+    #    ArgumentOutput.RESULT_IN_TABLE: lambda: pretty_output(results),
+    #    ArgumentOutput.RESULT_IN_FILE: lambda: file_output(results, cli_args),
     # }.get(cli_args.output, lambda: default_output(results))
     output = {
         'pretty': lambda: pretty_output(results),
